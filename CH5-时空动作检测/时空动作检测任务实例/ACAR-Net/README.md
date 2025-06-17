@@ -79,7 +79,11 @@ pip install numpy==1.19 -i https://pypi.mirrors.ustc.edu.cn/simple
 ```
 python main.py --config configs/AVA/SLOWFAST_R50_ACAR_HR2O.yaml --nproc_per_node 1 --backend nccl --master_addr 127.0.0.1 --master_port 31114
 ```
+--nproc_per_node 为1表示单卡，大于1为多卡。
 
+根据自己实际情况修改train.batch_size和val.batch_size，train.batch_size=1大约需要7GB显存，train.batch_size=2大约需要12GB显存，train.batch_size=3大约需要16GB显存，train.batch_size=4大约需要20GB显存。
+
+训练时整个batchsize=nproc_per_node*train.batch_size
 ## About Paper
 
 Please cite with the following Bibtex code:
