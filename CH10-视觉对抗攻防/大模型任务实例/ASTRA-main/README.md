@@ -26,6 +26,10 @@ pip install -r requirements_qwen.txt
 
 We provide adversarial images for perturbation-based attack setups in `./datasets/adv_img_*`
 
+Since the dataset is large, you need to download the datasets folder from GitHub.
+
+https://github.com/ASTRAL-Group/ASTRA
+
 #### Toxicity
 
 + Textual queries for steering vectors construction: \
