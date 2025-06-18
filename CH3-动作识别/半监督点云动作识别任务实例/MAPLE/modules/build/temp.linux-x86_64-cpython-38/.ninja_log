@@ -1,0 +1,10 @@
+# ninja log v5
+1	10736	1727265232705800148	/data/tianshaoqi24/MAPLE-main/modules/build/temp.linux-x86_64-cpython-38/_ext_src/src/ball_query_gpu.o	707e48c92ef31beb
+2	10740	1727265232705800148	/data/tianshaoqi24/MAPLE-main/modules/build/temp.linux-x86_64-cpython-38/_ext_src/src/interpolate_gpu.o	bf97c9bfa9d1fb4b
+2	10790	1727265232753799216	/data/tianshaoqi24/MAPLE-main/modules/build/temp.linux-x86_64-cpython-38/_ext_src/src/group_points_gpu.o	2454bc6604558fbc
+3	10880	1727265232845797430	/data/tianshaoqi24/MAPLE-main/modules/build/temp.linux-x86_64-cpython-38/_ext_src/src/sampling_gpu.o	86c30a15491c73df
+1	16936	1727265238901679884	/data/tianshaoqi24/MAPLE-main/modules/build/temp.linux-x86_64-cpython-38/_ext_src/src/group_points.o	c6c3c05596b50e6
+3	17017	1727265238985678255	/data/tianshaoqi24/MAPLE-main/modules/build/temp.linux-x86_64-cpython-38/_ext_src/src/sampling.o	c5bc88cbdfd5b9ea
+0	17102	1727265239069676624	/data/tianshaoqi24/MAPLE-main/modules/build/temp.linux-x86_64-cpython-38/_ext_src/src/ball_query.o	94504dbf8b2b6efb
+2	17141	1727265239109675847	/data/tianshaoqi24/MAPLE-main/modules/build/temp.linux-x86_64-cpython-38/_ext_src/src/interpolate.o	b7f9432c40fef54e
+1	19778	1727265241741624760	/data/tianshaoqi24/MAPLE-main/modules/build/temp.linux-x86_64-cpython-38/_ext_src/src/bindings.o	41c75c47bcdc112d
