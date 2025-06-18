@@ -1,124 +1,100 @@
 # Knowledge Transfer with Simulated Inter-Image Erasing for Weakly Supervised Semantic Segmentation
 
+本仓库为 KTSE 的 PyTorch 实现，适用于弱监督语义分割任务，支持 PASCAL VOC 2012 数据集。
 
-Network Architecture
---------------------
-The architecture of our proposed approach is as follows
+---
+
+## 网络结构
+
 ![network](framework.png)
 
+---
 
+## 环境配置
 
-## Prerequisite
-* Tested on Ubuntu 18.04, with Python 3.8, PyTorch 1.8.2, CUDA 11.3.
-
-* You can create conda environment with the provided yaml file.
-```
+- 推荐环境：Ubuntu 18.04，Python 3.8，PyTorch 1.8.2，CUDA 11.3
+- 可通过如下命令创建环境：
+```bash
 conda env create -f wsss_new.yaml
 ```
-* Download [The PASCAL VOC 2012 development kit](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/):
-and put it under ./data/ folder.
 
-### Test KTSE
-* Download our pretrained weight [039net_main.pth](https://ktse.oss-cn-shanghai.aliyuncs.com/039net_main.pth) (PASCAL, seed: 67% mIoU) and put it under ./experiments/ktse1/ckpt/ folder.
+---
+
+## 数据集准备
+
+1. 下载 [PASCAL VOC 2012 development kit](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/)，放置于 `./data/` 目录下。
+
+---
+
+## 训练与测试
+
+### 1. KTSE 第一阶段训练与测试
+
+- 下载 ImageNet 预训练权重 [ilsvrc-cls_rna-a1_cls1000_ep-0001.params](https://ktse.oss-cn-shanghai.aliyuncs.com/ilsvrc-cls_rna-a1_cls1000_ep-0001.params)，放入 `./pretrained/` 目录。
+- 训练 KTSE：
+```bash
+python train.py --name ktse1 --model ktse
 ```
+- 下载预训练模型 [039net_main.pth](https://ktse.oss-cn-shanghai.aliyuncs.com/039net_main.pth)（PASCAL, seed: 67% mIoU），放入 `./experiments/ktse1/ckpt/` 目录。
+- 推理与评估：
+```bash
 python infer.py --name ktse1 --model ktse --load_epo 39 --dict  --infer_list voc12/train_aug.txt
-```
-```
 python evaluation.py --name ktse1 --task cam --dict_dir dict
 ```
 
+---
 
-### Train KTSE
-* Download the initial weights pretrained on Imagenet [ilsvrc-cls_rna-a1_cls1000_ep-0001.params](https://ktse.oss-cn-shanghai.aliyuncs.com/ilsvrc-cls_rna-a1_cls1000_ep-0001.params) and put it under ./pretrained/ folder.
-* Please specify the name of your experiment (e.g., ktse1).
-```
-python train.py --name ktse1 --model ktse
-```
+### 2. BECO 分割网络训练与测试
 
+- 安装 Python 3.8、PyTorch 1.11.0 及 requirements.txt 依赖。
+- 下载 DeeplabV2 的 ImageNet 预训练模型 [resnet101-cd907fc2.pth](https://download.pytorch.org/models/resnet101-cd907fc2.pth)，重命名为 `resnet-101_v2.pth`，放入 `./data/model_zoo/`。
+- 下载伪标签 [sem_seg](https://ktse.oss-cn-shanghai.aliyuncs.com/sem_seg.zip)，解压至 `./data/`。
+- 下载分割网络预训练权重 [best_ckpt_KTSE_73.0.pth](https://ktse.oss-cn-shanghai.aliyuncs.com/best_ckpt_KTSE_73.0.pth)，放入 `./segmentation/` 目录。
 
-## Second stage training or testing for the segmentation network BECO
-
-
-### Testing the segmentation results with our pretrained model directly
-
-#### Prerequisite for the segmentation task
-* Install Python 3.8, PyTorch 1.11.0, and more in requirements.txt
-
-* Download ImageNet pretrained [model](https://download.pytorch.org/models/resnet101-cd907fc2.pth) of DeeplabV2 from [pytorch](https://pytorch.org/) . Rename the downloaded pth as "resnet-101_v2.pth" and put it into the directory './data/model_zoo/'. (This step is just to avoid directory related error.)
-
-
-* Download our generated pseudo label [sem_seg](https://ktse.oss-cn-shanghai.aliyuncs.com/sem_seg.zip) and put it into the directory './data/'.  (This step is just to avoid directory related error.)
-
-* Download our pretrained checkpoint [best_ckpt_KTSE_73.0.pth](https://ktse.oss-cn-shanghai.aliyuncs.com/best_ckpt_KTSE_73.0.pth) and put it into the directory './segmentation/'.  Test the segmentation network (you need to install CRF python library (pydensecrf) if you want to test with the CRF post-processing)
-
-
-
-```
+- 测试分割网络（如需 CRF 后处理，需安装 pydensecrf）：
+```bash
 cd segmentation
 pip install -r requirements.txt 
-
 python main.py --test --logging_tag seg_result --ckpt best_ckpt_KTSE_73.0.pth
 python test.py --crf --logits_dir ./data/logging/seg_result/logits_msc --mode "val"
 ```
 
+---
 
-### Refine the seed for pseudo label with IRN
-* Put the downloaded pretrained weight [039net_main.pth](https://ktse.oss-cn-shanghai.aliyuncs.com/039net_main.pth) into the ./irn/sess/ directory.
-* Run run_sample.py (You can either mannually edit the file, or specify commandline arguments.) and gen_mask.py to obtain the pseudo-labels and confidence masks (put them into the directory './segmentation/data/' ). Our generated ones can also be downloaded from [sem_seg](https://ktse.oss-cn-shanghai.aliyuncs.com/sem_seg.zip) and [mask_irn](https://ktse.oss-cn-shanghai.aliyuncs.com/mask_irn.zip) .
-```
+### 3. IRN 伪标签细化
+
+- 下载 [039net_main.pth](https://ktse.oss-cn-shanghai.aliyuncs.com/039net_main.pth) 并放入 `./irn/sess/` 目录。
+- 生成伪标签和置信度掩码（可直接下载 [sem_seg](https://ktse.oss-cn-shanghai.aliyuncs.com/sem_seg.zip) 和 [mask_irn](https://ktse.oss-cn-shanghai.aliyuncs.com/mask_irn.zip)）：
+```bash
 cd irn 
 python run_sample.py
 python gen_mask.py
 ```
 
-### Training the segmentation network
+---
 
+### 4. 分割网络训练
 
-
-#### Prepare the data directory
-* Put the data and pretrained model in the corresponding directories like:
+- 数据与预训练模型目录结构示例：
 ```
 data/
-    --- VOC2012/
-        --- Annotations/
-        --- ImageSet/
-        --- JPEGImages/
-        --- SegmentationClass/
-        --- ...
-    --- sem_seg/
-        --- ****.png
-        --- ****.png
-    --- mask_irn/
-        --- ****.png
-        --- ****.png
-    --- model_zoo/
-        --- resnet-101_v2.pth
-    --- logging/
+    ├── VOC2012/
+    ├── sem_seg/
+    ├── mask_irn/
+    ├── model_zoo/
+    └── logging/
 ```
-
-
-* Train the segmentation network
-```
+- 训练分割网络：
+```bash
 cd segmentation
 python main.py -dist --logging_tag seg_result --amp
 ```
 
+---
 
+## 许可
 
-## Acknowledgements
-This code is heavily borrowed from [AEFT](https://github.com/KAIST-vilab/AEFT), [IRN](https://github.com/jiwoon-ahn/irn) and [BECO](https://github.com/ShenghaiRong/BECO).
-
-
-## Citation
-
-If you find this useful in your research, please consider citing:
-
-    @article{chen2024knowledge,
-	title={Knowledge Transfer with Simulated Inter-Image Erasing for Weakly Supervised Semantic Segmentation},
-	author={Chen, Tao and Jiang, Xiruo and Pei, Gensheng and Sun, Zeren and Wang, Yucheng and Yao, Yazhou},
-	journal={European Conference on Computer Vision (ECCV)},
-	year={2024}
-	}
+本仓库代码仅供学术研究使用，禁止商业用途。
 
 
 
