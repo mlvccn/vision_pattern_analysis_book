@@ -1,0 +1,10 @@
+# ninja log v5
+2	10810	1729131117662989753	/data/tianshaoqi24/PST-Transformer-main/modules/build/temp.linux-x86_64-cpython-38/_ext_src/src/interpolate_gpu.o	1532b07636bf5f51
+1	10848	1729131117698989219	/data/tianshaoqi24/PST-Transformer-main/modules/build/temp.linux-x86_64-cpython-38/_ext_src/src/group_points_gpu.o	8e2b8ac708797d13
+1	10848	1729131117706989099	/data/tianshaoqi24/PST-Transformer-main/modules/build/temp.linux-x86_64-cpython-38/_ext_src/src/ball_query_gpu.o	d09b6d7d940b6e71
+3	11052	1729131117902986189	/data/tianshaoqi24/PST-Transformer-main/modules/build/temp.linux-x86_64-cpython-38/_ext_src/src/sampling_gpu.o	b2c38113380b0ed1
+1	17060	1729131123914896911	/data/tianshaoqi24/PST-Transformer-main/modules/build/temp.linux-x86_64-cpython-38/_ext_src/src/group_points.o	734e84700fa963fb
+0	17108	1729131123958896258	/data/tianshaoqi24/PST-Transformer-main/modules/build/temp.linux-x86_64-cpython-38/_ext_src/src/ball_query.o	6f9238e3212507e2
+2	17217	1729131124070894595	/data/tianshaoqi24/PST-Transformer-main/modules/build/temp.linux-x86_64-cpython-38/_ext_src/src/interpolate.o	8b3abd4411c31c0b
+2	17268	1729131124122893822	/data/tianshaoqi24/PST-Transformer-main/modules/build/temp.linux-x86_64-cpython-38/_ext_src/src/sampling.o	b8f0e9300394f795
+1	19859	1729131126710855391	/data/tianshaoqi24/PST-Transformer-main/modules/build/temp.linux-x86_64-cpython-38/_ext_src/src/bindings.o	bf98e9fa01b6ddc0
