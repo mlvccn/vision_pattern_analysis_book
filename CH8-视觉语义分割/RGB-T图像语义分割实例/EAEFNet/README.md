@@ -4,7 +4,7 @@
 
 ## 简介
 
-本仓库为 EAEFNet: Explicit Attention-Enhanced Fusion for RGB-Thermal Perception Tasks 的 PyTorch 实现，支持分割、检测、计数、显著性检测等多种 RGB-T 任务。部分代码参考自 [MFNet](https://github.com/haqishen/MFNet-pytorch)、[RTFNet](https://github.com/yuxiangsun/RTFNet)、[LSNet](https://github.com/zyrant/LSNet) 和 [RGBT-CC](https://github.com/chen-judge/RGBTCrowdCounting)。主分支适配 **PyTorch 1.10+**。
+本仓库为 EAEFNet: Explicit Attention-Enhanced Fusion for RGB-Thermal Perception Tasks 的 PyTorch 实现。部分代码参考自 [MFNet](https://github.com/haqishen/MFNet-pytorch)、[RTFNet](https://github.com/yuxiangsun/RTFNet)、[LSNet](https://github.com/zyrant/LSNet) 和 [RGBT-CC](https://github.com/chen-judge/RGBTCrowdCounting)。主分支适配 **PyTorch 1.10+**。
 
 ---
 
