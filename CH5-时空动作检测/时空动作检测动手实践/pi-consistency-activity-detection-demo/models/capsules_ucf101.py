@@ -484,37 +484,66 @@ class CapsNet(nn.Module):
         poses = poses.view(-1, h, w, caps, self.P*self.P)  # (B,20,20,24,16)
         
         # 训练和测试阶段不同的激活策略
-        if self.training:
-            # 创建标记的one-hot编码
-            activations_labeled = torch.eye(caps).cuda()[classification.long()]  # (B,1,24)
-            activations_labeled = torch.squeeze(activations_labeled, 1)  # (B,24)
+        # if self.training:
+        #     # 创建标记的one-hot编码
+        #     activations_labeled = torch.eye(caps).cuda()[classification.long()]  # (B,1,24)
+        #     activations_labeled = torch.squeeze(activations_labeled, 1)  # (B,24)
 
-            # 根据epoch阈值选择不同的未标记激活策略
-            if epoch < thresh_ep:
-                # 阈值epoch之前，对所有类别使用均匀激活
-                activations_unlabeled = torch.ones_like(activations_labeled)  # (B,24)
-            else:
-                # 阈值epoch之后，使用模型预测作为激活
-                activations_unlabeled = torch.eye(caps).cuda()[torch.argmax(actor_prediction, dim=1)]  # (B,24)
+        #     # 根据epoch阈值选择不同的未标记激活策略
+        #     if epoch < thresh_ep:
+        #         # 阈值epoch之前，对所有类别使用均匀激活
+        #         activations_unlabeled = torch.ones_like(activations_labeled)  # (B,24)
+        #     else:
+        #         # 阈值epoch之后，使用模型预测作为激活
+        #         activations_unlabeled = torch.eye(caps).cuda()[torch.argmax(actor_prediction, dim=1)]  # (B,24)
             
-            # 根据concat_labels选择使用标记激活还是未标记激活
-            activations = [activations_unlabeled[act] if concat_labels[act]==0 else activations_labeled[act] 
-                          for act in range(len(concat_labels))]  # list[B] of (24,)
-            activations = torch.stack(activations)  # (B,24)
-            activations = activations.view(-1, caps, 1)  # (B,24,1)
-            activations = torch.unsqueeze(activations, 1)  # (B,1,24,1)
-            activations = torch.unsqueeze(activations, 1)  # (B,1,1,24,1)
-            activations = activations.repeat(1, h, w, 1, 1)  # (B,20,20,24,1)
-            activations = activations.cuda()
+        #     # 根据concat_labels选择使用标记激活还是未标记激活
+        #     activations = [activations_unlabeled[act] if concat_labels[act]==0 else activations_labeled[act] 
+        #                   for act in range(len(concat_labels))]  # list[B] of (24,)
+        #     activations = torch.stack(activations)  # (B,24)
+        #     activations = activations.view(-1, caps, 1)  # (B,24,1)
+        #     activations = torch.unsqueeze(activations, 1)  # (B,1,24,1)
+        #     activations = torch.unsqueeze(activations, 1)  # (B,1,1,24,1)
+        #     activations = activations.repeat(1, h, w, 1, 1)  # (B,20,20,24,1)
+        #     activations = activations.cuda()
+        # else:
+        #     # 测试阶段直接使用预测结果作为激活
+        #     activations = torch.eye(caps).cuda()[torch.argmax(actor_prediction, dim=1)]  # (B,24)
+        #     activations = activations.view(-1, caps, 1)  # (B,24,1)
+        #     activations = torch.unsqueeze(activations, 1)  # (B,1,24,1)
+        #     activations = torch.unsqueeze(activations, 1)  # (B,1,1,24,1)
+        #     activations = activations.repeat(1, h, w, 1, 1)  # (B,20,20,24,1)
+        #     activations = activations.cuda()
+        if self.training:
+            activations_labeled = torch.eye(caps).cuda()[classification.long()]
+            activations_labeled = torch.squeeze(activations_labeled, 1)
+        
+            activations_all = []
+            conf_threshold = 0.6  # 可设置为 self.conf_threshold 或 args.conf_threshold
+        
+            for i in range(len(concat_labels)):
+                if concat_labels[i] == 0:  # 未标记样本
+                    pred = actor_prediction[i]  # (24,)
+                    max_prob = torch.max(pred)
+                    if epoch < thresh_ep or max_prob < conf_threshold:
+                        act = torch.ones_like(pred)  # 均匀激活
+                    else:
+                        act = torch.eye(caps).cuda()[torch.argmax(pred)]
+                else:
+                    act = activations_labeled[i]
+                activations_all.append(act)
+        
+            activations = torch.stack(activations_all)  # (B, C)
+            activations = activations.view(-1, caps, 1)
+            activations = activations.unsqueeze(1).unsqueeze(1)  # (B,1,1,C,1)
+            activations = activations.repeat(1, h, w, 1, 1).cuda()
         else:
-            # 测试阶段直接使用预测结果作为激活
-            activations = torch.eye(caps).cuda()[torch.argmax(actor_prediction, dim=1)]  # (B,24)
-            activations = activations.view(-1, caps, 1)  # (B,24,1)
-            activations = torch.unsqueeze(activations, 1)  # (B,1,24,1)
-            activations = torch.unsqueeze(activations, 1)  # (B,1,1,24,1)
-            activations = activations.repeat(1, h, w, 1, 1)  # (B,20,20,24,1)
-            activations = activations.cuda()
-            
+            activations = torch.eye(caps).cuda()[torch.argmax(actor_prediction, dim=1)]
+            activations = activations.view(-1, caps, 1)
+            activations = activations.unsqueeze(1).unsqueeze(1)
+            activations = activations.repeat(1, h, w, 1, 1).cuda()
+
+        
         # 应用激活到姿态矩阵
         poses = poses * activations  # (B,20,20,24,16)
         poses = poses.view(-1, h, w, ranges)  # (B,20,20,384)
