@@ -1,0 +1,152 @@
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
+from torch.quantization import QuantStub, DeQuantStub
+from torch.optim.lr_scheduler import CosineAnnealingLR
+import torch.nn.functional as F
+
+# 假设已有ViT模型
+from timm import create_model
+
+# 量化器实现：均匀仿射量化器
+class UniformAffineQuantizer(nn.Module):
+    def __init__(self, bits=8, symmetric=True):
+        super(UniformAffineQuantizer, self).__init__()
+        self.bits = bits
+        self.symmetric = symmetric
+        self.scale = None
+        self.zero_point = None
+    
+    def forward(self, x):
+        # 计算量化参数
+        if self.symmetric:
+            # 对称量化
+            qmin, qmax = -(2**(self.bits - 1)), 2**(self.bits - 1) - 1
+        else:
+            # 非对称量化
+            qmin, qmax = 0, 2**self.bits - 1
+        
+        # 量化
+        x_min = x.min()
+        x_max = x.max()
+        self.scale = (x_max - x_min) / (qmax - qmin)
+        self.zero_point = qmin - x_min / self.scale
+        x_quant = torch.round(x / self.scale + self.zero_point)
+        x_quant = torch.clamp(x_quant, qmin, qmax)
+        return x_quant
+
+# 自定义量化模型：在ViT模型中插入量化层
+class QuantizedViT(nn.Module):
+    def __init__(self, vit_model, quantizer):
+        super(QuantizedViT, self).__init__()
+        self.vit_model = vit_model
+        self.quantizer = quantizer
+        self.quant = QuantStub()  # 量化入口
+        self.dequant = DeQuantStub()  # 反量化出口
+
+    def forward(self, x):
+        x = self.quant(x)
+        x = self.vit_model(x)
+        x = self.dequant(x)
+        return x
+
+# 设计损失函数：分类损失 + 量化损失
+class QuantizationAwareLoss(nn.Module):
+    def __init__(self, original_model):
+        super(QuantizationAwareLoss, self).__init__()
+        self.original_model = original_model
+        self.cross_entropy_loss = nn.CrossEntropyLoss()
+
+    def forward(self, output, target, quantized_output):
+        # 分类损失
+        classification_loss = self.cross_entropy_loss(output, target)
+        # 量化感知损失：与原始模型的中间特征对齐
+        quantization_loss = F.mse_loss(quantized_output, self.original_model(target))
+        total_loss = classification_loss + quantization_loss
+        return total_loss
+
+# 训练流程：包括PTQ和QAT阶段
+def train_model(model, train_loader, val_loader, epochs=10, lr=1e-4):
+    optimizer = optim.Adam(model.parameters(), lr=lr)
+    scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
+    loss_fn = QuantizationAwareLoss(original_model=model.vit_model)
+
+    for epoch in range(epochs):
+        model.train()
+        running_loss = 0.0
+        correct = 0
+        total = 0
+        for inputs, targets in train_loader:
+            optimizer.zero_grad()
+
+            # 前向传播
+            outputs = model(inputs)
+            quantized_outputs = model.quant(inputs)  # 量化输出
+            loss = loss_fn(outputs, targets, quantized_outputs)
+            
+            # 反向传播
+            loss.backward()
+            optimizer.step()
+            
+            running_loss += loss.item()
+
+            _, predicted = outputs.max(1)
+            total += targets.size(0)
+            correct += predicted.eq(targets).sum().item()
+
+        scheduler.step()
+        acc = correct / total * 100
+        print(f"Epoch [{epoch + 1}/{epochs}], Loss: {running_loss/len(train_loader):.4f}, Accuracy: {acc:.2f}%")
+
+        # 验证
+        if (epoch + 1) % 5 == 0:
+            validate_model(model, val_loader)
+
+# 验证函数
+def validate_model(model, val_loader):
+    model.eval()
+    correct = 0
+    total = 0
+    with torch.no_grad():
+        for inputs, targets in val_loader:
+            outputs = model(inputs)
+            _, predicted = outputs.max(1)
+            total += targets.size(0)
+            correct += predicted.eq(targets).sum().item()
+
+    acc = correct / total * 100
+    print(f"Validation Accuracy: {acc:.2f}%")
+
+# 加载数据集并预处理
+def load_data(batch_size=32):
+    transform = transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    ])
+    
+    train_data = datasets.ImageNet(root='./data', split='train', transform=transform)  #在这里修改数据集路径
+    val_data = datasets.ImageNet(root='./data', split='val', transform=transform)  #在这里修改数据集路径
+    
+    train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True, num_workers=4)
+    val_loader = DataLoader(val_data, batch_size=batch_size, shuffle=False, num_workers=4)
+    
+    return train_loader, val_loader
+
+# 主程序
+if __name__ == "__main__":
+    # 加载预训练的ViT模型
+    vit_model = create_model("vit_base_patch16_224", pretrained=True)
+
+    # 实现量化ViT模型
+    quantizer = UniformAffineQuantizer(bits=8)
+    quantized_vit_model = QuantizedViT(vit_model, quantizer)
+
+    # 加载数据集
+    train_loader, val_loader = load_data()
+
+    # 训练模型
+    train_model(quantized_vit_model, train_loader, val_loader, epochs=10)
