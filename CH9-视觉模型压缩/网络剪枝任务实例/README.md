@@ -61,4 +61,4 @@ This file performs FSKD on specified VGG pretrained model. You can specify the n
 
 ## Acknowledgement
 
-We would like to thank the authors of [logit-standardization-KD](https://github.com/sunshangquan/logit-standardization-KD)] which has significantly accelerated the development of our book.
+We would like to thank the authors of [FSKD](Few Sample Knowledge Distillation for Efficient Network Compression) which has significantly accelerated the development of our book.
