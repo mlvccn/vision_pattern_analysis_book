@@ -92,5 +92,4 @@ bash ./z_mask/train_mse_msr_gpu0.sh
 
 ## 致谢
 
-We would like to thank the authors of [MAPLE](https://github.com/SheldongChen/MAPLE/blob/main/README.md) who have significantly accelerated the development of our book.
-
+我们想要感谢[MAPLE](https://github.com/SheldongChen/MAPLE/blob/main/README.md)的作者，他们的工作显著加快了我们书籍的开发进程。
