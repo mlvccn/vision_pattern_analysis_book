@@ -1,4 +1,28 @@
-# Point 4D Transformer Networks for Spatio-Temporal Modeling in Point Cloud Videos
+# 基于点4D Transformer的点云时空建模
+
+该方法来源于国际会议ACM MM2022的“[Point 4D Transformer Networks for Spatio-Temporal Modeling in Point Cloud Videos (thecvf.com)](https://openaccess.thecvf.com/content/CVPR2021/papers/Fan_Point_4D_Transformer_Networks_for_Spatio-Temporal_Modeling_in_Point_Cloud_CVPR_2021_paper.pdf)“一文。
+
+## 环境配置
+
+环境要求：CUDA=11.3，python=3.8，torch=1.10.1
+
+1. 创造虚拟环境
+
+```
+conda create --name your_env_name python=3.8
+```
+
+2. 激活虚拟环境
+
+```
+conda activate --name your_env_name
+```
+
+3. 安装依赖
+
+```
+pip install -r requirements.txt
+```
 
 ## 数据准备
 
@@ -41,9 +65,18 @@ cd modules
 python setup.py install
 ```
 
-## 训练
+## 训练&测试
 
 ```
 python train-msr-small.py
 ```
 
+## 在MSRAction3D上的实验结果
+
+|    Method     | Frames | Accuracy |
+| :-----------: | :----: | :------: |
+| P4Transformer |   24   |  90.94   |
+
+## 致谢
+
+We would like to thank the authors of [P4Transformer](https://github.com/hehefan/P4Transformer) who have significantly accelerated the development of our book.
