@@ -92,9 +92,9 @@ python main.py -dist --logging_tag seg_result --amp
 
 ---
 
-## 许可
+## 致谢
 
-本仓库代码仅供学术研究使用，禁止商业用途。
+We would like to thank the authors of [KTSE](https://github.com/chentao2016/KTSE)] which has significantly accelerated the development of our book.
 
 
 

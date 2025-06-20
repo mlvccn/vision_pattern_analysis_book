@@ -137,4 +137,4 @@ python predict.py --input [图片路径或文件夹] --dataset cityscapes --mode
 
 ## 致谢
 
-本项目参考了 [VainF/DeepLabV3Plus-Pytorch](https://github.com/VainF/DeepLabV3Plus-Pytorch) 等开源实现，感谢相关作者的贡献。
+We would like to thank the authors of [DeepLabv3Plus](https://github.com/VainF/DeepLabV3Plus-Pytorch)which has significantly accelerated the development of our book.

@@ -123,7 +123,8 @@ python train_pair.py --data-path=./data/cityscapes --sequence-path=./data/citysc
 
 ---
 
-## 许可
+## 致谢
 
-本仓库代码仅供学术研究使用，禁止商业用途。
+We would like to thank the authors of [AR-Seg
+](https://github.com/THU-LYJ-Lab/AR-Seg) which has significantly accelerated the development of our book.
 

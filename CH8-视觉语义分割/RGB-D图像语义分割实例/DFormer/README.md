@@ -117,9 +117,9 @@ PYTHONPATH="$(dirname $0)/..":$PYTHONPATH python utils/latency.py --config local
 
 ---
 
-## 许可
+## 致谢
 
-本仓库代码仅供学术研究使用，禁止商业用途。
+We would like to thank the authors of [DformerV2](https://github.com/VCIP-RGBD/DFormer)] which has significantly accelerated the development of our book.
 
 
 

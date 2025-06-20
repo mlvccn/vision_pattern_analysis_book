@@ -86,5 +86,5 @@ python tools/test.py --config seaformer-seg/cityscapes/seaformer_small.py --chec
 
 ## 致谢
 
-本项目参考了 [TopFormer](https://github.com/hustvl/TopFormer)、[mmsegmentation](https://github.com/open-mmlab/mmsegmentation)、[pytorch-image-models](https://github.com/rwightman/pytorch-image-models) 等开源实现，感谢相关作者
+We would like to thank the authors of [Seaformer](https://github.com/fudan-zvg/SeaFormer)which has significantly accelerated the development of our book.
 
