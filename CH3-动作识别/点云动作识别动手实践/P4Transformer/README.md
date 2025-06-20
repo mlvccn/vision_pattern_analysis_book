@@ -77,6 +77,6 @@ python train-msr-small.py
 | ------------- | ------ | -------- |
 | P4Transformer | 24     | 90.59    |
 
-## Acknowledgement
+## 致谢
 
 We would like to thank the authors of [P4Transformer](https://github.com/hehefan/P4Transformer) and [PSTNet](https://github.com/hehefan/PSTNet2) who have significantly accelerated the development of our book
