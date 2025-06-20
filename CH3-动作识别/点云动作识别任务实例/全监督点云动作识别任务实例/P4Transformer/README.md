@@ -79,4 +79,4 @@ python train-msr-small.py
 
 ## 致谢
 
-We would like to thank the authors of [P4Transformer](https://github.com/hehefan/P4Transformer) who have significantly accelerated the development of our book.
+我们想要感谢[P4Transformer](https://github.com/hehefan/P4Transformer)的作者，他们的工作显著加快了我们书籍的开发进程。
