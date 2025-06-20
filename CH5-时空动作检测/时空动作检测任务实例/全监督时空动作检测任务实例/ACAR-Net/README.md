@@ -1,6 +1,6 @@
-# ACARNet复现
+# 人物-上下文-人物关系推理网络
 
-论文：Actor-Context-Actor Relation Network for Spatio-Temporal Action Localization(CVPR 2021)
+该方法来源于国际会议CVPR2021的“[Actor-context-actor relation network for spatio-temporal action localization](https://openaccess.thecvf.com/content/CVPR2021/papers/Pan_Actor-Context-Actor_Relation_Network_for_Spatio-Temporal_Action_Localization_CVPR_2021_paper.pdf)”一文。
 
 ## 数据集准备
 
@@ -84,16 +84,15 @@ python main.py --config configs/AVA/SLOWFAST_R50_ACAR_HR2O.yaml --nproc_per_node
 根据自己实际情况修改train.batch_size和val.batch_size，train.batch_size=1大约需要7GB显存，train.batch_size=2大约需要12GB显存，train.batch_size=3大约需要16GB显存，train.batch_size=4大约需要20GB显存。
 
 训练时整个batchsize=nproc_per_node*train.batch_size
-## About Paper
 
-Please cite with the following Bibtex code:
+**建议使用3090显卡运行代码**
 
-```
-@inproceedings{pan2021actor,
-  title={Actor-context-actor relation network for spatio-temporal action localization},
-  author={Pan, Junting and Chen, Siyu and Shou, Mike Zheng and Liu, Yu and Shao, Jing and Li, Hongsheng},
-  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
-  pages={464--474},
-  year={2021}
-}
-```
+## 实验结果
+
+| 模型            | Backbone      | mAP   |
+| --------------- | ------------- | ----- |
+| Baseline + HR2O | SlowFast R-50 | 27.83 |
+
+## 致谢
+
+我们想要感谢 [ACAR-Net](https://github.com/Siyu-C/ACAR-Net) 的作者们，他们的工作显著加快了我们书籍的开发进程。
