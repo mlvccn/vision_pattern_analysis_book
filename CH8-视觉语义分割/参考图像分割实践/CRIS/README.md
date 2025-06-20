@@ -1,10 +1,10 @@
-# CRIS: CLIP-Driven Referring Image Segmentation (CVPR2022)
+# 基于CLIP的指代图像分割（CVPR2022）
 
-### 环境依赖
+### Environment Requirements
 
-- Python 3.7 + PyTorch 1.10.0（CUDA 10.2）  
+- Python 3.7 + PyTorch 1.10.0 (CUDA 10.2)  
 
-- 创建 Conda 环境：  
+- Create Conda environment:  
 
   ```bash
   conda create -n cris python=3.7
@@ -13,30 +13,30 @@
   pip install -r requirements.txt
   ```
 
-### 数据准备
+### Data Preparation
 
-下载以下数据，提取并放置于data文件夹
+Download the following data, extract and place them in the data folder:
 
 - https://bvisionweb1.cs.unc.edu/licheng/referit/data/refclef.zip
 - https://bvisionweb1.cs.unc.edu/licheng/referit/data/refcoco.zip
 - https://bvisionweb1.cs.unc.edu/licheng/referit/data/refcoco+.zip
 - https://bvisionweb1.cs.unc.edu/licheng/referit/data/refcocog.zip
 
-下载COCO 2014数据集：http://mscoco.org/dataset/
+Download the COCO 2014 dataset: http://mscoco.org/dataset/
 
-COCO 2014 训练图像（83K/13GB）放入 ./refer/data/images/mscoco/images
+Place COCO 2014 training images (83K/13GB) in ./refer/data/images/mscoco/images
 
-### 训练代码
+### Training
 
-将习题中的自己写的代码 替换 `./model/segmenter.py`中的`CRIS`类。
+Replace the `CRIS` class in `./model/segmenter.py` with your own code from the exercises.
 
-在训练之前, 请登录你的 wandb 账号，可以用 `wandb login` 或 `wandb login --anonymously` 命令
+Before training, please log in to your wandb account using `wandb login` or `wandb login --anonymously`.
 
 ```
 python -u train.py --config config/refcoco/cris_r50.yaml
 ```
 
-### 测试代码
+### Testing
 
 ```
 CUDA_VISIBLE_DEVICES=0 python -u test.py \
@@ -45,7 +45,7 @@ CUDA_VISIBLE_DEVICES=0 python -u test.py \
              TEST.test_lmdb datasets/lmdb/refcocog_g/val.lmdb
 ```
 
-### 引用
+### Citation
 
 ```
 @inproceedings{wang2021cris,

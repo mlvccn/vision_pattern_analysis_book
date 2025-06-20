@@ -1,18 +1,18 @@
-# LAVT: Language-Aware Vision Transformer for Referring Image Segmentation
+# 面向指代图像分割的语言感知视觉Transformer
 
-本仓库为 LAVT 的 PyTorch 实现，适用于 Referring Image Segmentation 任务。
+This repository provides the PyTorch implementation of LAVT for Referring Image Segmentation tasks.
 
 ---
 
-## 网络结构
+## Network Architecture
 
 ![Pipeline Image](pipeline.jpg)
 
 ---
 
-## 环境配置
+## Environment Setup
 
-推荐环境：Python 3.7，PyTorch 1.7.1，CUDA 10.2
+Recommended: Python 3.7, PyTorch 1.7.1, CUDA 10.2
 
 ```bash
 conda create -n lavt python=3.7
@@ -23,50 +23,50 @@ pip install -r requirements.txt
 
 ---
 
-## 数据集准备
+## Dataset Preparation
 
-1. 参考 `./refer` 目录说明，准备并下载 RefCOCO、RefCOCO+、G-Ref 等数据集标注。
-2. 从 [COCO官网](https://cocodataset.org/#download) 下载 2014 Train images，解压到 `./refer/data/images/mscoco/images`。
+1. Refer to the `./refer` directory for instructions to prepare and download RefCOCO, RefCOCO+, G-Ref, etc.
+2. Download 2014 Train images from [COCO official website](https://cocodataset.org/#download) and extract to `./refer/data/images/mscoco/images`.
 
 ---
 
-## 预训练模型与权重
+## Pretrained Models and Weights
 
-1. 创建 `./pretrained_weights` 目录，下载 [Swin Transformer 预训练权重](https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window12_384_22k.pth) 并放入其中。
-2. 创建 `./checkpoints` 目录，下载 LAVT 训练权重（见下表）并放入其中。
+1. Create the `./pretrained_weights` directory, download [Swin Transformer pretrained weights](https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window12_384_22k.pth) and place them inside.
+2. Create the `./checkpoints` directory, download LAVT training weights (see table below) and place them inside.
 
 | RefCOCO | RefCOCO+ | G-Ref (UMD) | G-Ref (Google) |
 |:-------:|:--------:|:-----------:|:--------------:|
-| [权重](https://drive.google.com/file/d/13D-OeEOijV8KTC3BkFP-gOJymc6DLwVT/view?usp=sharing) | [权重](https://drive.google.com/file/d/1B8Q44ZWsc8Pva2xD_M-KFh7-LgzeH2-2/view?usp=sharing) | [权重](https://drive.google.com/file/d/1BjUnPVpALurkGl7RXXvQiAHhA-gQYKvK/view?usp=sharing) | [权重](https://drive.google.com/file/d/1weiw5UjbPfo3tCBPfB8tu6xFXCUG16yS/view?usp=sharing) |
+| [weights](https://drive.google.com/file/d/13D-OeEOijV8KTC3BkFP-gOJymc6DLwVT/view?usp=sharing) | [weights](https://drive.google.com/file/d/1B8Q44ZWsc8Pva2xD_M-KFh7-LgzeH2-2/view?usp=sharing) | [weights](https://drive.google.com/file/d/1BjUnPVpALurkGl7RXXvQiAHhA-gQYKvK/view?usp=sharing) | [weights](https://drive.google.com/file/d/1weiw5UjbPfo3tCBPfB8tu6xFXCUG16yS/view?usp=sharing) |
 
 ---
 
-## 训练
+## Training
 
-以 4 卡为例，训练命令如下（需提前创建模型保存目录）：
+For 4 GPUs, the training command is as follows (create the model save directory in advance):
 
 ```bash
 mkdir ./models/refcoco
 CUDA_VISIBLE_DEVICES=0,1,2,3 python -m torch.distributed.launch --nproc_per_node 4 --master_port 12345 train.py --model lavt --dataset refcoco --model_id refcoco --batch-size 8 --lr 0.00005 --wd 1e-2 --swin_type base --pretrained_swin_weights ./pretrained_weights/swin_base_patch4_window12_384_22k.pth --epochs 40 --img_size 480 2>&1 | tee ./models/refcoco/output
 ```
-其他数据集训练命令类似，详见原始命令行参数说明。
+For other datasets, refer to the original command line instructions.
 
 ---
 
-## 测试
+## Testing
 
-以 RefCOCO 为例：
+Example for RefCOCO:
 
 ```bash
 python test.py --model lavt --swin_type base --dataset refcoco --split val --resume ./checkpoints/refcoco.pth --workers 4 --ddp_trained_weights --window12 --img_size 480
 ```
-其他数据集和分割集可调整参数。
+Adjust parameters for other datasets and splits.
 
 ---
 
-## 模型性能
+## Model Performance
 
-LAVT 在各数据集上的评测结果如下：
+LAVT evaluation results on various datasets:
 
 |     Dataset     | P@0.5 | P@0.6 | P@0.7 | P@0.8 | P@0.9 | Overall IoU | Mean IoU |
 |:---------------:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----------:|:--------:|
@@ -84,10 +84,10 @@ LAVT 在各数据集上的评测结果如下：
 
 ## Demo
 
-可通过 `demo_inference.py` 脚本对自定义图片和文本进行推理与可视化。
+You can use `demo_inference.py` for custom image and text inference and visualization.
 
 ---
 
-## 许可
+## License
 
-本仓库代码仅供学术研究使用，禁止商业用途
+This repository is for academic research only and strictly prohibited for commercial use.

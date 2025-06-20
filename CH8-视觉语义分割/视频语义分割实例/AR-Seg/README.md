@@ -1,19 +1,19 @@
-# AR-Seg
+# 压缩视频的高效语义分割分辨率自适应方法
 
-本仓库为 AR-Seg 的 PyTorch 实现，适用于压缩视频的高效语义分割。包含 CamVid 和 Cityscapes 数据集的训练、评估与推理脚本。
+This repository provides the PyTorch implementation of AR-Seg for efficient semantic segmentation on compressed videos. It includes training, evaluation, and inference scripts for the CamVid and Cityscapes datasets.
 
 ---
 
-## 环境配置
+## Environment Setup
 
-### 使用 Conda 配置环境
+### Using Conda Environment
 
 ```bash
 conda env create -f environment.yml
 conda activate AR-Seg
 ```
 
-### 手动分步安装
+### Manual Installation
 
 ```bash
 conda create -n AR-Seg python=3.6 
@@ -25,40 +25,40 @@ pip install -r requirements.txt
 
 ---
 
-## 数据集与预处理
+## Dataset and Preprocessing
 
-请参考 [pre-process/README.md](./pre-process/README.md) 进行数据集准备和预处理。
-
----
-
-## 预训练模型与示例数据
-
-- 训练权重可从 [TsinghuaCloud](https://cloud.tsinghua.edu.cn/f/bb4bedf8c7af4ec8a5b2/) 或 [GoogleDrive](https://drive.google.com/file/d/1u3CUNoRRDi1V1Y4b5Hv8gFwYGdKjXJtp/view?usp=share_link) 下载，解压至 `./checkpoints/` 目录。
-- 示例处理后数据可从 [TsinghuaCloud](https://cloud.tsinghua.edu.cn/d/f358201e9ac14c4e801a/) 或 [GoogleDrive](https://drive.google.com/drive/folders/1EMDyP59-WE2OK8FqYFY_f3SAd7PgZ7Ld?usp=share_link) 下载，解压至 `./data/` 目录。
+Please refer to [pre-process/README.md](./pre-process/README.md) for dataset preparation and preprocessing instructions.
 
 ---
 
-## 评估
+## Pretrained Models and Example Data
 
-运行评估脚本：
+- Training weights can be downloaded from [TsinghuaCloud](https://cloud.tsinghua.edu.cn/f/bb4bedf8c7af4ec8a5b2/) or [GoogleDrive](https://drive.google.com/file/d/1u3CUNoRRDi1V1Y4b5Hv8gFwYGdKjXJtp/view?usp=share_link) and extracted to the `./checkpoints/` directory.
+- Example processed data can be downloaded from [TsinghuaCloud](https://cloud.tsinghua.edu.cn/d/f358201e9ac14c4e801a/) or [GoogleDrive](https://drive.google.com/drive/folders/1EMDyP59-WE2OK8FqYFY_f3SAd7PgZ7Ld?usp=share_link) and extracted to the `./data/` directory.
+
+---
+
+## Evaluation
+
+Run the evaluation script:
 
 ```bash
-python evaluation.py --dataset [camvid 或 cityscapes] --backbone [psp18 或 bise18] --mode [1 1 1 或 0 0 1 等]
+python evaluation.py --dataset [camvid or cityscapes] --backbone [psp18 or bise18] --mode [1 1 1 or 0 0 1 etc.]
 ```
 
-示例：评估 CamVid 上 BiseNet-18 的 HR 分支：
+Example: Evaluate the HR branch of BiseNet-18 on CamVid:
 
 ```bash
 python evaluation.py --dataset camvid --backbone bise18 --mode 1 0 0 
 ```
 
-评估结果将保存在 `./evaluation-result` 目录下。
+Evaluation results will be saved in the `./evaluation-result` directory.
 
 ---
 
-## 训练
+## Training
 
-### 数据集软链接
+### Dataset Symlink
 
 CamVid:
 
@@ -74,7 +74,7 @@ ln -s cityscapes_root ./data/cityscapes
 ln -s cityscapes_root/leftImg8bit_sequence ./data/cityscapes-sequence
 ```
 
-### HR 分支训练
+### HR Branch Training
 
 CamVid:
 
@@ -93,7 +93,7 @@ Cityscapes:
 python train.py --data-path=./data/cityscapes --models-path=./exp/pspnet18-cityscapes/scale1.0_epoch200_pure_bs8_0.5-2.0-aug-512x1024-lr-0.01-semsegPSP --backend='resnet18' --batch-size=8 --epochs=200 --scale=1.0 --gpu=4 --start-lr=0.01 --model_type=pspnet --dataset=cityscapes
 ```
 
-### LR 分支训练
+### LR Branch Training
 
 CamVid:
 
@@ -119,12 +119,11 @@ python convert_model_for_cityscapes.py --backbone bise18
 python train_pair.py --data-path=./data/cityscapes --sequence-path=./data/cityscapes-sequence --models-path=./exp/bisenet18-cityscapes/paper/cityscapes-bise18-scale0.5-5M-GOP12-30fps_0.01_epoch200 --backend='resnet18' --batch-size=16 --epochs=200 --scale=0.5 --gpu=2 --feat_loss=mse  --start-lr=0.01 --stage1_epoch=0 --ref_gap=12 --with_motion=1 --model_type=bisenet --dataset=cityscapes --bitrate=5
 ```
 
-如需在 Cityscapes 上训练 BiseNet，请下载初始化权重并解压至 `./cityscapes_pretrained/` 目录。
+If you want to train BiseNet on Cityscapes, please download the initialization weights and extract them to the `./cityscapes_pretrained/` directory.
 
 ---
 
-## 致谢
+## Acknowledgement
 
-We would like to thank the authors of [AR-Seg
-](https://github.com/THU-LYJ-Lab/AR-Seg) which has significantly accelerated the development of our book.
+We would like to thank the authors of [AR-Seg](https://github.com/THU-LYJ-Lab/AR-Seg) which has significantly accelerated the development of our book.
 

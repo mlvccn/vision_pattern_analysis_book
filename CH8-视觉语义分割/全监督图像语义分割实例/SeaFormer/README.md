@@ -1,12 +1,12 @@
-# Squeeze-enhanced axial Transformer
+# 轴向压缩增强Transformer
 
-本仓库为 SeaFormer 的官方 PyTorch 实现，适用于移动端语义分割任务，支持 ADE20K、Cityscapes 等数据集。
+This repository provides the official PyTorch implementation of SeaFormer, designed for mobile semantic segmentation tasks and supporting datasets such as ADE20K and Cityscapes.
 
 ---
 
-## 环境配置
+## Environment Setup
 
-推荐环境：Python 3.8+，PyTorch 1.8+，CUDA 11.1+
+Recommended: Python 3.8+, PyTorch 1.8+, CUDA 11.1+
 
 ```bash
 conda create -n seaformer python=3.8 -y
@@ -17,39 +17,39 @@ pip install -r requirements.txt
 
 ---
 
-## 数据集准备
+## Dataset Preparation
 
-请根据实际需求下载并准备 ADE20K、Cityscapes 等数据集，放置于 `data/` 目录下。数据集结构可参考 mmsegmentation 官方文档。
-
----
-
-## 预训练模型与权重
-
-- 分类模型权重与配置：[链接](seaformer-cls/)
-- 语义分割模型权重与配置：[链接](seaformer-seg/)
+Please download and prepare ADE20K, Cityscapes, etc. as needed, and place them in the `data/` directory. The dataset structure can refer to the official mmsegmentation documentation.
 
 ---
 
-## 训练与测试
+## Pretrained Models and Weights
 
-### 语义分割训练示例
+- Classification model weights and configs: [link](seaformer-cls/)
+- Semantic segmentation model weights and configs: [link](seaformer-seg/)
+
+---
+
+## Training and Testing
+
+### Semantic Segmentation Training Example
 
 ```bash
-# 以 Cityscapes 为例
+# Example for Cityscapes
 python tools/train.py --config seaformer-seg/cityscapes/seaformer_small.py
 ```
 
-### 语义分割测试示例
+### Semantic Segmentation Testing Example
 
 ```bash
-python tools/test.py --config seaformer-seg/cityscapes/seaformer_small.py --checkpoint [权重路径]
+python tools/test.py --config seaformer-seg/cityscapes/seaformer_small.py --checkpoint [weight_path]
 ```
 
 ---
 
-## 模型性能
+## Model Performance
 
-### ImageNet-1K 分类
+### ImageNet-1K Classification
 
 | Model            | Size | Acc@1 | #Params (M) | FLOPs (G) |
 |------------------|:----:|:-----:|:-----------:|:---------:|
@@ -58,7 +58,7 @@ python tools/test.py --config seaformer-seg/cityscapes/seaformer_small.py --chec
 | SeaFormer-Base   |  224 |  76.4 |     8.7     |    0.3    |
 | SeaFormer-Large  |  224 |  79.9 |     14.0    |    1.2    |
 
-### ADE20K 语义分割
+### ADE20K Semantic Segmentation
 
 | Method       |      Backbone    |   Pretrain  | Iters | mIoU(ss) |
 |--------------|------------------|-------------|-------|----------|
@@ -67,7 +67,7 @@ python tools/test.py --config seaformer-seg/cityscapes/seaformer_small.py --chec
 |  Light Head  | SeaFormer-Base   | ImageNet-1K | 160K  | 41.9     |
 |  Light Head  | SeaFormer-Large  | ImageNet-1K | 160K  | 43.8     |
 
-### Cityscapes 语义分割
+### Cityscapes Semantic Segmentation
 
 | Method         |      Backbone    |   FLOPs | mIoU |
 |----------------|------------------|---------|----------|
@@ -78,13 +78,13 @@ python tools/test.py --config seaformer-seg/cityscapes/seaformer_small.py --chec
 
 ---
 
-## 许可
+## License
 
-本仓库代码仅供学术研究使用，禁止商业用途。
+This repository is for academic research only and strictly prohibited for commercial use.
 
 ---
 
-## 致谢
+## Acknowledgement
 
-We would like to thank the authors of [Seaformer](https://github.com/fudan-zvg/SeaFormer)which has significantly accelerated the development of our book.
+We would like to thank the authors of [Seaformer](https://github.com/fudan-zvg/SeaFormer) which has significantly accelerated the development of our book.
 

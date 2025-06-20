@@ -1,12 +1,12 @@
-# UniMatch
+# 基于弱到强一致性的半监督语义分割方法再探
 
-本仓库为 UniMatch 的官方 PyTorch 实现，适用于半监督语义分割任务，支持 Pascal VOC 2012、Cityscapes、COCO 等数据集。
+This repository provides the official PyTorch implementation of UniMatch for semi-supervised semantic segmentation, supporting datasets such as Pascal VOC 2012, Cityscapes, and COCO.
 
 ---
 
-## 环境配置
+## Environment Setup
 
-推荐环境：Python 3.10+，PyTorch 1.12.1+，CUDA 11.3+
+Recommended: Python 3.10+, PyTorch 1.12.1+, CUDA 11.3+
 
 ```bash
 cd UniMatch
@@ -18,13 +18,13 @@ pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 -f https://download.py
 
 ---
 
-## 预训练模型与权重
+## Pretrained Models and Weights
 
-- ResNet-50: [下载地址](https://drive.google.com/file/d/1mqUrqFvTQ0k5QEotk4oiOFyP6B9dVZXS/view?usp=sharing)
-- ResNet-101: [下载地址](https://drive.google.com/file/d/1Rx0legsMolCWENpfvE2jUScT3ogalMO8/view?usp=sharing)
-- Xception-65: [下载地址](https://drive.google.com/open?id=1_j_mE07tiV24xXOJw4XDze0-a0NAhNVi)
+- ResNet-50: [Download Link](https://drive.google.com/file/d/1mqUrqFvTQ0k5QEotk4oiOFyP6B9dVZXS/view?usp=sharing)
+- ResNet-101: [Download Link](https://drive.google.com/file/d/1Rx0legsMolCWENpfvE2jUScT3ogalMO8/view?usp=sharing)
+- Xception-65: [Download Link](https://drive.google.com/open?id=1_j_mE07tiV24xXOJw4XDze0-a0NAhNVi)
 
-请将权重文件放入 `./pretrained/` 目录下：
+Please put the weights in the `./pretrained/` directory:
 
 ```
 ├── ./pretrained
@@ -35,13 +35,13 @@ pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 -f https://download.py
 
 ---
 
-## 数据集准备
+## Dataset Preparation
 
 - Pascal VOC: [JPEGImages](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar) | [SegmentationClass](https://drive.google.com/file/d/1ikrDlsai5QSf2GiSUR3f8PZUzyTubcuF/view?usp=sharing)
 - Cityscapes: [leftImg8bit](https://www.cityscapes-dataset.com/file-handling/?packageID=3) | [gtFine](https://drive.google.com/file/d/1E_27g9tuHm6baBqcA7jct_jqcGA89QPm/view?usp=sharing)
 - COCO: [train2017](http://images.cocodataset.org/zips/train2017.zip) | [val2017](http://images.cocodataset.org/zips/val2017.zip) | [masks](https://drive.google.com/file/d/166xLerzEEIbU7Mt1UGut-3-VN41FMUb1/view?usp=sharing)
 
-请将数据集解压并整理为如下结构，并在配置文件中修改路径：
+Please extract and organize the datasets as follows, and modify the paths in the config file:
 
 ```
 ├── [Your Pascal Path]
@@ -60,25 +60,25 @@ pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 -f https://download.py
 
 ---
 
-## 训练与测试
+## Training and Testing
 
-### 训练
+### Training
 
 ```bash
-# 使用 torch.distributed.launch
+# Using torch.distributed.launch
 sh scripts/train.sh <num_gpu> <port>
-# 推荐4卡复现论文结果，否则需调整学习率
+# 4 GPUs are recommended to reproduce the results, otherwise adjust the learning rate
 ```
 
-如需在其他数据集或划分上训练，请修改 `scripts/train.sh` 中的 `dataset` 和 `split` 参数。
+To train on other datasets or splits, modify the `dataset` and `split` parameters in `scripts/train.sh`.
 
-### 测试
+### Testing
 
-训练完成后可根据脚本或配置进行模型测试与评估。
+After training, you can test and evaluate the model according to the script or config.
 
 ---
 
-## 模型性能
+## Model Performance
 
 ### Pascal VOC 2012
 
@@ -109,6 +109,6 @@ sh scripts/train.sh <num_gpu> <port>
 
 ---
 
-## 许可
+## License
 
-本仓库代码仅供学术研究使用，禁止商业用途
+This repository is for academic research only and strictly prohibited for commercial use.
