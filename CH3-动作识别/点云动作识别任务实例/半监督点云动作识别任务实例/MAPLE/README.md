@@ -1,6 +1,6 @@
 # 基于掩码伪标记自编码的半监督点云动作识别
 
-该方法来源于国际会议ACM MM2022的“[MAPLE: Masked Pseudo-Labeling autoEncoder for Semi-supervised Point Cloud Action Recognition (acm.org)](https://dl.acm.org/doi/pdf/10.1145/3503161.3547892)“一文。
+该方法来源于国际会议ACM MM2022中“[MAPLE: Masked pseudo-labeling autoEncoder for semi-supervised point cloud action recognition](https://dl.acm.org/doi/pdf/10.1145/3503161.3547892)“一文。
 
 ## 环境配置
 
