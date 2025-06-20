@@ -1,12 +1,14 @@
 # 对比提议学习（Contrastive Proposal Learning, CPL）
 
+该典型方法来源于国际会议CVPR2022"[Weakly Supervised Temporal Sentence Grounding with Gaussian-based Contrastive Proposal Learning](https://minghangz.github.io/uploads/CPL/CPL_paper.pdf)"一文。
+
 ## 1.所需环境
 
 ```
-- pytorch
-- h5py
-- nltk
-- fairseq
+- pytorch 1.17.1
+- h5py 3.11.0
+- nltk 3.9.1
+- fairseq 0.10.2
 ```
 
 ## 2.数据准备
@@ -66,3 +68,7 @@ python train.py --config-path CONFIG_FILE --resume CHECKPOINT_FILE --eval --vote
 
 - `CONFIG_FILE` 与训练时使用的配置文件一致
 - `CHECKPOINT_FILE` 为训练保存的模型路径（如：`checkpoints/charades/model-best.pt`）
+
+## 致谢
+
+我们想要感谢[CPL](https://github.com/minghangz/cpl)的作者们，他们的工作显著加快了我们书籍的开发进程。

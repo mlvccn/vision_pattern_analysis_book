@@ -1,5 +1,7 @@
 # 推拉学习方案（Pull-Push Learning Scheme, PPS）
 
+该典型方法来源于国际会议CVPR2022"[Gaussian Mixture Proposals with Pull-Push Learning Scheme to Capture Diverse Events for Weakly Supervised Temporal Video Grounding](https://arxiv.org/pdf/2312.16388v1.pdf)"一文。
+
 ## 1.所需环境
 
 ```
@@ -95,3 +97,7 @@ bash script/train_charades.sh
 训练日志默认保存在 `log/` 文件夹，模型权重保存在 `checkpoint/` 文件夹。
 
 使用 `wandb` 可视化训练过程，如需关闭，在 `config/` 目录下的配置文件中设置 `use_wandb=False`。
+
+## 致谢
+
+我们想要感谢[PPS](https://github.com/sunoh-kim/pps)的作者们，他们的工作显著加快了我们书籍的开发进程。
