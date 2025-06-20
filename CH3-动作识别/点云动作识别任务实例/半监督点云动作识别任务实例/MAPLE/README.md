@@ -90,7 +90,7 @@ bash ./z_mask/train_mse_msr_gpu0.sh
 
 7.5%、15.0%、22.5%、30.0%、37.5%对应掩码比例。
 
-## Acknowledgement
+## 致谢
 
 We would like to thank the authors of [MAPLE](https://github.com/SheldongChen/MAPLE/blob/main/README.md) who have significantly accelerated the development of our book.
 
