@@ -127,14 +127,6 @@ python predict.py --input [图片路径或文件夹] --dataset cityscapes --mode
 | DeepLabV3Plus-MobileNet   | 16         | 135G   | 16/16        | 0.721   | [下载](https://www.dropbox.com/s/753ojyvsh3vdjol/best_deeplabv3plus_mobilenet_cityscapes_os16.pth?dl=0) |
 | DeepLabV3Plus-ResNet101   | 16         |  N/A   | 16/16        | 0.762   | [下载](https://drive.google.com/file/d/1t7TC8mxQaFECt4jutdq_NMnWxdm6B-Nb/view?usp=sharing) |
 
----
-
-## 许可
-
-本仓库代码仅供学术研究使用，禁止商业用途。
-
----
-
 ## 致谢
 
 We would like to thank the authors of [DeepLabv3Plus](https://github.com/VainF/DeepLabV3Plus-Pytorch)which has significantly accelerated the development of our book.
