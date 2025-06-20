@@ -1,6 +1,6 @@
 # 基于点4D Transformer的点云时空建模
 
-该方法来源于国际会议CVPR2021中“[Point 4D Transformer Networks for Spatio-Temporal Modeling in Point Cloud Videos](https://openaccess.thecvf.com/content/CVPR2021/papers/Fan_Point_4D_Transformer_Networks_for_Spatio-Temporal_Modeling_in_Point_Cloud_CVPR_2021_paper.pdf)“一文。
+该方法来源于国际会议CVPR2021中“[Point 4d transformer networks for spatio-temporal modeling in point cloud videos](https://openaccess.thecvf.com/content/CVPR2021/papers/Fan_Point_4D_Transformer_Networks_for_Spatio-Temporal_Modeling_in_Point_Cloud_CVPR_2021_paper.pdf)“一文。
 
 ## 环境配置
 
