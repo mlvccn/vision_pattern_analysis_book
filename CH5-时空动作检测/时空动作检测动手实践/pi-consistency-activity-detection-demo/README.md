@@ -1,6 +1,6 @@
 # E2ESSL复现
 
-论文：End-to-End Semi-Supervised Learning for Video Action Detection(CVPR2022)
+该方法来源于国际会议CVPR2022的“[End-to-End Semi-Supervised Learning for Video Action Detection](https://openaccess.thecvf.com/content/CVPR2022/papers/Kumar_End-to-End_Semi-Supervised_Learning_for_Video_Action_Detection_CVPR_2022_paper.pdf)”一文。
 
 ## 数据集准备
 
@@ -45,6 +45,8 @@ pip install protobuf==3.20.0
 下载[预训练权重](https://pan.baidu.com/s/1kaESs3oJG1iO_4-undidmA?pwd=xh8b)，并放到“pi-consistency-activity-detection-demo/weights”目录下。
 
 ## 运行命令
+
+实验在使用3090显卡上运行
 
 ### jhmdb_cyclic_variance_maps
 
@@ -137,17 +139,30 @@ python main.py --epochs 100 --bs 8 --loc_loss dice --lr 1e-4\
   - *pkl_file_label* - 已标记子集
   - *pkl_file_unlabel* - 未标记子集
 
+## 实验结果
 
-## About Paper
-If you find this work useful, please consider citing the following paper:
+### UCF101-24
 
-```
-@InProceedings{Kumar_2022_CVPR,
-    author    = {Kumar, Akash and Rawat, Yogesh Singh},
-    title     = {End-to-End Semi-Supervised Learning for Video Action Detection},
-    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-    month     = {June},
-    year      = {2022},
-    pages     = {14700-14710}
-}
-```
+An analysis of the effect of temporal constraints on consistency regularization using
+UCF101-24 20% and JHMDB-21 30% labeled subset. V, G, VC and L2 stands for Variance, Gradient,
+Cyclic variance and non-attentive L2 loss.
+
+| V    | G            | VC           | L2           | f-mAP@0.5 | v-mAP@0.5 |
+| ---- | ------------ | ------------ | ------------ | --------- | --------- |
+|      |              | $\checkmark$ | $\checkmark$ | 69.9      | 72.1      |
+|      | $\checkmark$ |              | $\checkmark$ | 69.4      | 72.0      |
+
+### JHMDB
+
+An analysis of the effect of temporal constraints on consistency regularization using
+UCF101-24 20% and JHMDB-21 30% labeled subset. V, G, VC and L2 stands for Variance, Gradient,
+Cyclic variance and non-attentive L2 loss.
+
+| V    | G            | VC           | L2           | f-mAP@0.5 | v-mAP@0.5 |
+| ---- | ------------ | ------------ | ------------ | --------- | --------- |
+|      |              | $\checkmark$ | $\checkmark$ | 64.4      | 63.5      |
+|      | $\checkmark$ |              | $\checkmark$ | 63.1      | 62.2      |
+
+## 致谢
+
+我们想要感谢 [端到端半监督视频动作检测网络](https://github.com/AKASH2907/pi-consistency-activity-detection) 的作者们，他们的工作显著加快了我们书籍的开发进程。
