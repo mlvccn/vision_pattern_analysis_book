@@ -1,11 +1,8 @@
-# Steering Away from Harm: An Adaptive Approach to Defending Vision Language Model Against Jailbreaks
+# LLM 攻击防御任务实例实践指南
 
-This is source code accompanying the paper of [Steering Away from Harm: An Adaptive Approach to Defending Vision Language Model Against Jailbreaks](https://arxiv.org/abs/2411.16721) by Han Wang, Gang Wang, and Huan Zhang.
+## Installation
 
-![teaser](./assets/framework.jpg)
-![adaptive](./assets/adaptive.jpg)
-
-## Environment Preparation
+The code was tested on a Conda environment installed on Ubuntu 20.04.
 To prepare the environment for LLaVA-v1.5 and MiniGPT-4, you can run the following commands:
 ```bash
 conda create --name astra python==3.10.14
@@ -26,28 +23,19 @@ pip install -r requirements_qwen.txt
 
 We provide adversarial images for perturbation-based attack setups in `./datasets/adv_img_*`
 
-Since the dataset is large, you need to download the datasets folder from GitHub.
-
-https://github.com/ASTRAL-Group/ASTRA
-
 #### Toxicity
 
-+ Textual queries for steering vectors construction: \
-we use 40 harmful instructions from [Qi et al.](https://github.com/Unispac/Visual-Adversarial-Examples-Jailbreak-Large-Language-Models/tree/main/harmful_corpus). Please place the file `manual_harmful_instructions.csv` to `./dataset/harmful_corpus`.
++ Textual queries for steering vectors construction: we use 40 harmful instructions from [Qi et al.](https://github.com/Unispac/Visual-Adversarial-Examples-Jailbreak-Large-Language-Models/tree/main/harmful_corpus). Please place the file `manual_harmful_instructions.csv` to `./dataset/harmful_corpus`.
 
-+ Evaluation datasets: \
-Please download the [RealToxicityPrompts](https://huggingface.co/datasets/allenai/real-toxicity-prompts) dataset and place it in `./datasets/harmful_corpus`.
-Then, run the script `split_toxicity_set.py` located in `./datasets/harmful_corpus` to generate the validation and test sets.
++ Evaluation datasets: Please download the [RealToxicityPrompts](https://huggingface.co/datasets/allenai/real-toxicity-prompts) dataset and place it in `./datasets/harmful_corpus`. Then, run the script `split_toxicity_set.py` located in `./datasets/harmful_corpus` to generate the validation and test sets.
 
 #### Jailbreak
 
 We mainly use text queries from AdvBench and Anthropic-HHH datasets in our main experiments.
 
-+ Textual queries for steering vectors construction: \
-Following the dataset split in [Schaeffer et al.](https://github.com/RylanSchaeffer/AstraFellowship-When-Do-VLM-Image-Jailbreaks-Transfer/tree/main/prompts_and_targets), we use `train.csv` in `AdvBench` to perform image attribution.
++ Textual queries for steering vectors construction: Following the dataset split in [Schaeffer et al.](https://github.com/RylanSchaeffer/AstraFellowship-When-Do-VLM-Image-Jailbreaks-Transfer/tree/main/prompts_and_targets), we use `train.csv` in `AdvBench` to perform image attribution.
 
-+ Evaluation datasets: \
-The `eval.csv` file is equally divided to create validation and set sets. You can run the script `split_jb_set.py` in `./datasets/harmful_corpus` to generate the validatin and test sets for this setup.
++ Evaluation datasets: The `eval.csv` file is equally divided to create validation and set sets. You can run the script `split_jb_set.py` in `./datasets/harmful_corpus` to generate the validatin and test sets for this setup.
 
 In transferability experiments, we use the text queries from [JailbreakBench](https://github.com/JailbreakBench/jailbreakbench) to attack OOD images and evaluate the generalization ability of our defense. The queries can be found in `./datasets/harmful_corpus/JBB`. 
 
@@ -68,7 +56,6 @@ To perform image attribution (e.g. in Qwen2-VL Jailbreak setup), run the followi
 CUDA_VISIBLE_DEVICES=0 python ./extract_attr/extract_qwen_jb_attr.py
 CUDA_VISIBLE_DEVICES=0 python ./extract_act/extracting_activations_qwen_jb.py
 ```
-(Note: when performing image attribution on LLaVA-v1.5 or MiniGPT-4, please comment out line 1 in `./image_attr/__init__.py` to avoid potential bugs caused by differences in environments.)
 
 ### Activations
 
@@ -77,6 +64,7 @@ We provide steering vectors for each setup in `./activations/*/jb` and  `./activ
 ## Inference Evaluations
 
 ### Adversarial Scenarios
+
 To evaluate the performance of adaptive steering (e.g., in Qwen2-VL), run the following commands:
 ```bash
 CUDA_VISIBLE_DEVICES=0 python ./steer_eval/steering_qwen_toxic.py --attack_type constrain_16 --alpha 7 --eval test --steer_layer 14
@@ -84,7 +72,6 @@ CUDA_VISIBLE_DEVICES=0 python ./steer_eval/steering_qwen_jb.py --attack_type con
 CUDA_VISIBLE_DEVICES=0 python ./steer_eval/steering_qwen_jb_ood.py --attack_type constrain_16 --alpha 7 --eval test --steer_layer 14 --attack_algorithm apgd
 CUDA_VISIBLE_DEVICES=0 python ./steer_eval/steering_qwen_typo.py --alpha 7 --eval test --steer_layer 14
 ```
-You can set `attack_type` to `constrain_16`, `constrain_32`, `constrain_64`, or `unconstrain`. Detailed option can be found in `parse_args()` function of each Python file.
 
 To evaluate the performance of MiniGPT-4 and LLaVA-v1.5 (e.g. in the Toxicity setup), run the following commands:
 ```bash
@@ -101,26 +88,7 @@ CUDA_VISIBLE_DEVICES=0 python ./utility_eval/minigpt_mmvet.py --attack_type cons
 CUDA_VISIBLE_DEVICES=0 python ./utility_eval/minigpt_mmbench.py --attack_type constrain_16 --alpha 5 --eval test --steer_vector toxic
 CUDA_VISIBLE_DEVICES=0 python ./utility_eval/minigpt_mmvet.py --attack_type constrain_16 --alpha 5 --eval test --steer_vector toxic
 ```
-For detailed prompts to evaluate responses, see [MM-Vet](https://github.com/yuweihao/MM-Vet).
 
-## Citation
+## Acknowledgement
 
-If you find our work useful, please consider citing our paper:
-```
-@article{wang2024steering,
-  title={Steering Away from Harm: An Adaptive Approach to Defending Vision Language Model Against Jailbreaks},
-  author={Wang, Han and Wang, Gang, and Zhang, Huan},
-  journal={arXiv preprint arXiv:2411.16721},
-  year={2024}
-}
-```
-
-Our codebase is built upon on the following work:
-```
-@article{cohenwang2024contextcite,
-    title={ContextCite: Attributing Model Generation to Context},
-    author={Cohen-Wang, Benjamin and Shah, Harshay and Georgiev, Kristian and Madry, Aleksander},
-    journal={arXiv preprint arXiv:2409.00729},
-    year={2024}
-}
-```
+We would like to thank the authors of [ASTRA]( https://github.com/ASTRAL-Group/ASTRA) which has significantly accelerated the development of our book

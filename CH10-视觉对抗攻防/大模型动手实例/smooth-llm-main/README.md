@@ -1,12 +1,5 @@
-# SmoothLLM
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-This is the official source code for "[SmoothLLM: Defending LLMs Against Jailbreaking Attacks](https://arxiv.org/abs/2310.03684)" by [Alex Robey](https://arobey1.github.io/), [Eric Wong](https://riceric22.github.io/), [Hamed Hassani](https://www.seas.upenn.edu/~hassani/), and [George J. Pappas](https://www.georgejpappas.org/).  To learn more about our work, see [our blog post](https://debugml.github.io/smooth-llm/).
-
-![Introduction to SmoothLLM](assets/introduction.gif)
-
 ## Installation
+The code was tested on a Conda environment installed on Ubuntu 20.04.
 
 **Step 1:** Create an empty virtual environment.
 
@@ -58,23 +51,7 @@ python main.py \
     --smoothllm_num_copies 10
 ```
 
-You can also change SmoothLLM's hyperparameters---the number of copies, the perturbation percentage, and the perturbation function---by changing the named arguments.  At present, we support three kinds of perturbations: swaps, patches, and insertions.  For more details, see Algorithm 2 in [our paper](https://arxiv.org/abs/2310.03684).  To use these functions, you can replace the `--perturbation_type` value with `RandomSwapPerturbation`, `RandomPatchPerturbation`, or `RandomInsertPerturbation`.
+You can also change SmoothLLM's hyperparameters---the number of copies, the perturbation percentage, and the perturbation function---by changing the named arguments.  At present, we support three kinds of perturbations: swaps, patches, and insertions.  For more details, see Algorithm 2 in [paper](https://arxiv.org/abs/2310.03684).  To use these functions, you can replace the `--perturbation_type` value with `RandomSwapPerturbation`, `RandomPatchPerturbation`, or `RandomInsertPerturbation`.
 
-## Reproducibility
-The following codebases have reimplemented our results:
-* https://gist.github.com/deadbits/4ab3f807441d72a2cf3105d0aea9de48
-
-## Citation
-If you find this codebase useful in your research, please consider citing:
-
-```bibtex
-@article{robey2023smoothllm,
-  title={SmoothLLM: Defending Large Language Models Against Jailbreaking Attacks},
-  author={Robey, Alexander and Wong, Eric and Hassani, Hamed and Pappas, George J},
-  journal={arXiv preprint arXiv:2310.03684},
-  year={2023}
-}
-```
-
-## License
-`smooth-llm` is licensed under the terms of the MIT license. See LICENSE for more details.
+## Acknowledgement
+We would like to thank the authors of [SmoothLLM]( https://github.com/arobey1/smooth-llm) which has significantly accelerated the development of our book
