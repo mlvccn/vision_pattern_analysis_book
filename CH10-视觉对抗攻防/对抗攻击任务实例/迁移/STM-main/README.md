@@ -1,7 +1,14 @@
-# STM
-This repository is an official implementation of the paper [Improving the Transferability of Adversarial Examples with Arbitrary Style Transfer](https://arxiv.org/abs/2308.10601), which has been accepted by ACM MM 2023.
+# Improving the Transferability of Adversarial Examples with Arbitrary Style Transfer (ACM MM 2023)
 
-## Requirements
+深度神经网络容易受到通过在干净输入上施加人眼难以察觉的扰动而生成的对抗样本的影响。尽管许多攻击方法在白盒环境下能实现很高的攻击成功率，但这些方法在黑盒环境下的迁移性往往较弱。最近，研究者提出了多种提升对抗迁移性的方法，其中输入变换是最有效的技术路线之一。在本研究中，我们发现现有基于输入变换的方法主要采用同领域数据增强。受领域泛化研究的启发，我们尝试通过跨领域数据增强来进一步提升迁移性。具体而言，风格迁移网络可以在保持图像语义内容不变的情况下改变其底层视觉特征的分布。因此，我们提出了一种名为风格迁移攻击法（Style Transfer Method，STM）的新型攻击方法，该方法利用我们设计的任意风格迁移网络将图像转换到不同域。为避免风格化图像对分类网络产生语义不一致的问题，我们对风格迁移网络进行微调，并将添加了随机噪声的生成图像与原始图像混合，以保持语义一致性并增强输入多样性。
+
+### Installation
+
+The code was tested on a Conda environment installed on Ubuntu 18.04.
+
+Install [Conda](https://docs.conda.io/en/latest/miniconda.html) and then create an environment as follows:
+
+## Environments
 * python == 3.7.11
 * pytorch == 1.8.0
 * torchvision == 0.8.0
@@ -14,40 +21,25 @@ This repository is an official implementation of the paper [Improving the Transf
 * tqdm == 4.62.3
 * imageio == 2.6.1
 
+## Datasets
 
-## Qucik Start
-### Prepare the data and models.
-1. We have prepared the ImageNet-compatible dataset in this program and put the data in **'./dataset/'**.
+- Download the [`datasets`](<https://github.com/Zhijin-Ge/STM/tree/main/dataset>)  
 
-2. The normally trained models (i.e., Inc-v3, Inc-v4, IncRes-v2, Res-50, Res-101, Res-100) are from "pretrainedmodels", if you use it for the first time, it will download the weight of the model automatically, just wait for it to finish. 
+- Put the data in **'./dataset/'**.
 
-3. The adversarially trained models (i.e, ens3_adv_inc_v3, ens4_adv_inc_v3, ens_adv_inc_res_v2) are from [SSA](https://github.com/yuyang-long/SSA) or [tf_to_torch_model](https://github.com/ylhz/tf_to_pytorch_model). For more detailed information on how to use them, visit these two repositories.
+## Attack
 
-### STM Attack Method
-The traditional baseline attacks and our proposed STM attack methods are in the file __"Incv3_STM_Attacks.py"__.
-All the provided codes generate adversarial examples on Inception_v3 model. If you want to attack other models, replace the model in **main()** function.
-
-### Runing attack
-1. You can run our proposed attack as follows. 
 ```
 python Incv3_STM_Attacks.py
 ```
-We also provide the implementations of other baseline attack methods in our code, just change them to the corresponding attack methods in the **main()** function.
 
-2. The generated adversarial examples would be stored in the directory **./incv3_xx_xx_outputs**. Then run the file **verify.py** to evaluate the success rate of each model used in the paper:
+## Test
+
 ```
 python verify.py
 ```
-## Acknowledgments
-The codes mainly references: [SSA](https://github.com/yuyang-long/SSA) and [styleAug](https://github.com/philipjackson/style-augmentation)
 
-## Citation
-If you use this code for your research, please cite our paper.
-```
-@inproceedings{ge2023improving,
-     title={{Improving the Transferability of Adversarial Examples with Arbitrary Style Transfer}},
-     author={Zhijin Ge and Fanhua Shang and Hongying Liu and Yuanyuan Liu and Liang Wan and Wei Feng and Xiaosen Wang},
-     booktitle={Proceedings of the ACM International Conference on Multimedia},
-     year={2023}
-}
-```
+## Acknowledgement
+
+We would like to thank the authors of [STM]( https://github.com/Zhijin-Ge/STM?tab=readme-ov-file) ,providing code for academic practice
+
