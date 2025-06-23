@@ -1,4 +1,11 @@
-## Requirements
+# 一种结合时间显著性信息重对齐置信度的点级弱监督时序动作定位方法
+
+该方法来源于国际会议CVPR2024的 [Realigning confidence with temporal saliency information for point-level weakly-supervised temporal action localization](https://openaccess.thecvf.com/content/CVPR2024/papers/Xia_Realigning_Confidence_with_Temporal_Saliency_Information_for_Point-Level_Weakly-Supervised_Temporal_CVPR_2024_paper.pdf) 一文。
+
+## 安装
+
+
+### 要求
 
 - CUDA: 11.3  
 - Python: 3.8.16  
@@ -21,13 +28,13 @@
 
 ### 2. 提议生成
 
-使用 P-TAL 方法生成 proposals（不含后处理），或直接使用作者提供的：
+使用 P-TAL 方法生成 proposals（不含后处理），或直接使用原作者提供的：
 
 ```
 ./data/THUMOS14/*.pkl
 ```
 
-## 训练&测试
+## 模型训练&模型测试
 
 ### 训练
 
@@ -44,3 +51,13 @@ bash ./train_thumos.sh
 ```bash
 bash ./test_thumos.sh 
 ```
+
+## 实验结果
+
+| 模型   | 数据集   | Avg.mAP(0.1:0.7) |
+| ------ | -------- | ---------------- |
+| TSPNet | THUMOS14 | 57.0             |
+
+## 致谢
+
+我们想要感谢 [TSPNet](https://github.com/zyxia1009/CVPR2024-TSPNet) 的作者们，他们的工作显著加快了我们书籍的开发进程。
