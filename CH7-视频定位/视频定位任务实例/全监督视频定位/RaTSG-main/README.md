@@ -56,6 +56,15 @@ bash activitynet_RF_test.sh
 - [RaTSG_charades_RF_i3d_128](https://drive.google.com/drive/folders/1TQyojFEEhXsDg6GSChfGrmCcoKesigI5?usp=sharing)
 - [RaTSG_activitynet_RF_i3d_128](https://drive.google.com/drive/folders/1TQyojFEEhXsDg6GSChfGrmCcoKesigI5?usp=sharing)
 
+## 6.实验结果
+
+|     数据集     |  Acc  | R1@0.3 | R1@0.5 | R1@0.7 | mIoU  |
+| :------------: | :---: | :----: | :----: | :----: | :---: |
+|  Charades-RF   | 76.85 | 68.17  | 61.61  | 54.19  | 59.93 |
+| ActivityNet-RF | 84.27 | 69.02  | 60.68  | 52.88  | 61.15 |
+
+
+
 ## 致谢
 
 我们想要感谢[RaTSG](https://github.com/HuiGuanLab/RaTSG)的作者们，他们的工作显著加快了我们书籍的开发进程。

@@ -55,6 +55,19 @@ python moment_localization/test.py --cfg experiments/tacos/2D-TAN-128x128-K5L8-p
 python moment_localization/test.py --cfg experiments/tacos/2D-TAN-128x128-K5L8-conv.yaml --verbose --split test
 ```
 
+## 5.实验结果
+
+|        数据集        | 特征提取方式 | Rank1@0.3 | Rank1@0.5 | Rank1@0.7 | Rank5@0.3 | Rank5@0.5 | Rank5@0.7 |
+| :------------------: | :----------: | :-------: | :-------: | :-------: | :-------: | :-------: | :-------: |
+|     Charades-STA     |     Pool     |     -     |   39.70   |   23.31   |     -     |   80.32   |   51.26   |
+|     Charades-STA     |     Conv     |     -     |   39.81   |   23.25   |     -     |   79.33   |   52.15   |
+| ActivityNet Captions |     Pool     |   59.45   |   44.51   |   26.54   |   85.53   |   77.13   |   61.96   |
+| ActivityNet Captions |     Conv     |   58.75   |   44.05   |   27.38   |   85.65   |   76.65   |   62.26   |
+|        TACoS         |     Pool     |   47.59   |   37.29   |   25.32   |   70.31   |   57.81   |   45.04   |
+|        TACoS         |     Conv     |   46.44   |   35.22   |   25.19   |   74.43   |   56.94   |   44.21   |
+
+
+
 ## 致谢
 
 我们想要感谢[2D-TAN](https://github.com/microsoft/VideoX/tree/master/2D-TAN)的作者们，他们的工作显著加快了我们书籍的开发进程。
